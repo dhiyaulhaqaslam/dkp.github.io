@@ -1,12 +1,16 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
-   content: [],
-   theme: {
-      extend: {
-        colors: {
-          cream: '#FFFDD0',
-        },
+  content: [
+    "./*.html", // Atur jalur sesuai dengan file HTML Anda
+    "./src/**/*.{html,js}", // Jika ada file JS di folder src
+  ],
+  theme: {
+    extend: {
+      screens: {
+        '3xl': '2000px', // Menambahkan breakpoint 3xl
       },
-   },
-   plugins: [],
-};
+    },
+  },
+  variants: {},
+  plugins: [],
+}
