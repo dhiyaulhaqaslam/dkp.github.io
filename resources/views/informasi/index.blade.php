@@ -4,89 +4,84 @@
             {{ __($title) }}
         </h2>
     </x-slot>
-    <div class="w-full max-w-7xl mx-auto flex flex-col justify-center items-center px-4">
-        <h3 class="text-4xl font-semibold mb-4">Info About</h3>
-        <div class="rounded-md w-full overflow-x-auto  bg-white dark:bg-gray-800 text-black dark:text-white p-6">
-            @auth
-                <div class="my-5 flex justify-end">
-                    <a class="px-4 py-2 bg-indigo-600 text-white font-light rounded-md hover:bg-indigo-700 transition duration-500"
-                        href="{{ route('informasi.create') }}">Create</a>
-                </div>
-            @endauth
 
-            @if (session('success'))
-                <div id="alert-message" class="alert alert-success mb-4 p-4 bg-green-100 text-green-700 rounded">
-                    {{ session('success') }}
-                </div>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const alertMessage = document.getElementById('alert-message');
-                        if (alertMessage) {
-                            setTimeout(() => {
-                                alertMessage.style.transition = "opacity 0.5s ease"; // Animasi transisi
-                                alertMessage.style.opacity = 0; // Mengurangi opacity hingga 0
-                                setTimeout(() => alertMessage.remove(),
-                                    500); // Menghapus elemen setelah animasi selesai
-                            }, 3000); // Durasi tampilan sebelum mulai menghilang (3 detik)
-                        }
-                    });
-                </script>
-            @endif
+    {{-- SECTION: INFORMASI UMUM --}}
+    <div class="w-full max-w-7xl mx-auto px-4 py-8">
+        <h3 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-6 border-b pb-2">Informasi Umum</h3>
 
-            <ul class="space-y-4">
-                @foreach ($informasi as $info)
+        @auth
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('informasi.create') }}"
+                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition">
+                    + Tambah Informasi
+                </a>
+            </div>
+        @endauth
+
+        @if (session('success'))
+            <div id="alert-message"
+                class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 text-sm border border-green-300 shadow">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="grid gap-6 md:grid-cols-2">
+            @foreach ($informasi as $info)
+                <div
+                    class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $info->judul }}</h4>
+                    </div>
+
                     @php
-                        // Potong teks menjadi dua bagian: awal dan lanjutannya
                         $deskripsi_full = strip_tags($info->deskripsi);
                         $deskripsi_limit = \Illuminate\Support\Str::limit($deskripsi_full, 150, '');
                         $deskripsi_remaining = substr($deskripsi_full, strlen($deskripsi_limit));
                     @endphp
 
-                    <div
-                        class="mb-6 border border-gray-300 p-6 bg-white dark:bg-gray-800 rounded text-gray-600 dark:text-gray-300">
-                        <strong class="text-black dark:text-white block mb-2">{{ $info->judul }}</strong>
-
-                        {{-- Paragraf cuplikan awal --}}
-                        <p class="text-sm mb-2">
-                            {{ $deskripsi_limit }}
-                            <span id="dots-{{ $info->id }}">...</span>
-                            <span id="more-{{ $info->id }}" class="hidden">{{ $deskripsi_remaining }}</span>
-                            @if (strlen($deskripsi_remaining) > 0)
-                                <button onclick="toggleReadMore({{ $info->id }})"
-                                    class="text-indigo-600 text-sm ml-1" id="btn-{{ $info->id }}">
-                                    Selengkapnya
-                                </button>
-                            @endif
-                        </p>
-
-                        {{-- Tambahan konten jika ada --}}
-                        @if ($info->gambar)
-                            <img src="{{ asset('storage/' . $info->gambar) }}"
-                                class="h-24 w-24 object-cover rounded mb-2" alt="Gambar">
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
+                        {{ $deskripsi_limit }}
+                        <span id="dots-{{ $info->id }}">...</span>
+                        <span id="more-{{ $info->id }}" class="hidden">{{ $deskripsi_remaining }}</span>
+                        @if (strlen($deskripsi_remaining) > 0)
+                            <button onclick="toggleReadMore({{ $info->id }})"
+                                class="text-indigo-500 hover:underline text-sm ml-1" id="btn-{{ $info->id }}">
+                                Selengkapnya
+                            </button>
                         @endif
-                        @if ($info->video_link)
-                            <a href="{{ $info->video_link }}" target="_blank" class="text-blue-500 block mt-2">Tonton
-                                Video</a>
-                        @endif
+                    </p>
 
-                        {{-- Aksi Edit & Hapus --}}
-                        <div class="flex mt-4 space-x-2">
-                            <a href="{{ route('informasi.edit', $info->id) }}"
-                                class="bg-indigo-600 hover:bg-indigo-700 rounded-md px-3 py-1 text-white">Edit</a>
-                            <form action="{{ route('informasi.destroy', $info->id) }}" method="POST"
-                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus informasi ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-500 hover:bg-red-600 rounded-md px-3 py-1 text-white">Delete</button>
-                            </form>
-                        </div>
+                    @if ($info->gambar)
+                        <img src="{{ asset('storage/' . $info->gambar) }}"
+                            class="mt-3 w-full h-40 object-cover rounded-lg border" alt="Gambar">
+                    @endif
+
+                    @if ($info->video_link)
+                        <a href="{{ $info->video_link }}" target="_blank"
+                            class="mt-3 inline-block text-blue-600 hover:underline text-sm">Tonton Video</a>
+                    @endif
+
+                    <div class="mt-4 flex space-x-2">
+                        <a href="{{ route('informasi.edit', $info->id) }}"
+                            class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md transition">
+                            Edit
+                        </a>
+                        <form action="{{ route('informasi.destroy', $info->id) }}" method="POST"
+                            onsubmit="return confirm('Yakin hapus informasi ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="text-sm bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded-md transition">
+                                Delete
+                            </button>
+                        </form>
                     </div>
-                @endforeach
-            </ul>
+                </div>
+            @endforeach
         </div>
     </div>
 
+    {{-- JS READ MORE --}}
     <script>
         function toggleReadMore(id) {
             const dots = document.getElementById("dots-" + id);
@@ -105,36 +100,41 @@
         }
     </script>
 
-    {{-- ISI PRIORITY --}}
-    <h3 class="text-4xl  font-semibold mb-4 text-center mt-5">Info Priority</h3>
-    <div
-        class="my-5 w-full max-w-7xl mx-auto flex flex-col justify-center items-center px-4 bg-gray-100 dark:bg-gray-800 rounded-md">
-        <div class="bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6">
-            <div class="my-5 flex justify-end">
+    {{-- SECTION: INFO PRIORITY --}}
+    {{-- SECTION: INFO PRIORITY --}}
+    <div class="w-full max-w-7xl mx-auto px-4 py-8">
+        <h3 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-6 border-b pb-2">Info Priority</h3>
+
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-xl shadow-md">
+            <div class="mb-5 flex justify-end">
                 <a href="{{ route('priority.create') }}"
-                    class="px-4 py-2 bg-indigo-600 text-white font-light rounded-md hover:bg-indigo-700 transition duration-500">
-                    Create
+                    class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition">
+                    + Tambah Priority
                 </a>
             </div>
-            <ul>
+
+            <ul class="space-y-6">
                 @foreach ($priorities as $priority)
-                    <li class="mb-6 border border-gray-300 p-6 text-gray-600 dark:text-gray-300">
-                        <strong class="text-black dark:text-white">{{ $priority->judul }}</strong>:
-                        {{ $priority->deskripsi }}
-                        <div class="flex mt-4 space-x-2">
-                            <a href="{{ route('priority.edit', $priority->id) }}"
-                                class="bg-indigo-600 hover:bg-indigo-700 rounded-md px-3 py-1 text-white">Edit</a>
-                            <form action="{{ route('priority.destroy', $priority->id) }}" method="POST"
-                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus program ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-500 hover:bg-red-600 rounded-md px-3 py-1 text-white">Delete</button>
-                            </form>
+                    <li
+                        class="p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <strong class="text-xl text-gray-900 dark:text-white">{{ $priority->judul }}</strong>
+
+                            <div class="flex space-x-2">
+                                <a href="{{ route('priority.edit', $priority->id) }}"
+                                    class="text-sm bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md transition">Edit</a>
+                                <form action="{{ route('priority.destroy', $priority->id) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus program ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="text-sm bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded-md transition">Delete</button>
+                                </form>
+                            </div>
                         </div>
+                        <p class="text-gray-700 dark:text-gray-300 mt-2">{{ $priority->deskripsi }}</p>
                     </li>
                 @endforeach
-
             </ul>
         </div>
     </div>
