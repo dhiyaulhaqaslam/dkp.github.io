@@ -24,14 +24,14 @@
                     <x-nav-link :href="route('welcome')"> <!-- Tautan ke halaman welcome -->
                         {{ __('Home') }} <!-- Teks untuk Welcome -->
                     </x-nav-link>
-                    <x-nav-link class="text-white hover:text-zinc-300" :href="route('about.index')" :active="request()->routeIs('about.index')">
+                    <x-nav-link class="dark:hover:text-zinc-300" :href="route('about.index')" :active="request()->routeIs('about.index')">
                         {{ __('About') }}
                     </x-nav-link>
-                    <x-nav-link class="text-white hover:text-zinc-300" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
+                    <x-nav-link class="dark:hover:text-zinc-300" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
                         {{ __('Contact') }}
                     </x-nav-link>
                     <button id="dropdownButton"
-                        class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-white dark:text-gray-400 hover:text-zinc-300 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-200 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
+                        class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 dark:text-gray-400 hover:text-zinc-800 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-800 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
                         {{ __('Features') }}
                         <!-- Icon panah bawah -->
                         <svg class="w-4 h-4 ms-1 text-gray-500 group-hover:text-gray-800 dark:text-gray-400 dark:group-hover:text-white"
