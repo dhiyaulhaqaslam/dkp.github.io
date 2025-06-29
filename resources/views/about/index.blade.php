@@ -4,7 +4,8 @@
     <div class="pt-10 bg-gray-100 font-poppins">
         <div class="container mx-auto">
             <section
-                class="overflow-hidden bg-[url(https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2670&auto=format&fit=crop)] bg-cover bg-top bg-no-repeat" data-aos="fade-right">
+                class="overflow-hidden bg-[url(https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2670&auto=format&fit=crop)] bg-cover bg-top bg-no-repeat"
+                data-aos="fade-right">
                 <div class="bg-black/50 p-8 md:p-12 lg:px-16 lg:py-24 text-center">
                     <div class="text-center ltr:sm:text-left rtl:sm:text-right">
                         <h2 class="text-2xl font-bold text-white sm:text-3xl md:text-5xl">Tentang kami</h2>
@@ -235,106 +236,62 @@
             </section>
         </div>
     </div>
-    <div class="space-y-4 container py-8 mx-auto">
-        <section class="my-8" data-aos="fade-right">
-            <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-center md:gap-8">
-                    <div>
-                        @php
-                            $deskripsi = 'deskripsi';
-                        @endphp
-                        <div
-                            class="max-w-lg md:max-w-none text-black dark:text-white bg-gray-100 dark:bg-gray-800 py-10 px-6 rounded-md">
-                            <h2 class="text-2xl font-semibold sm:text-3xl">
-                                Video Profil Dinas Ketahanan Pangan
-                            </h2>
+    <div class="container py-12 mx-auto space-y-8">
+        <section class="px-4" data-aos="fade-right">
+            <div class="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Deskripsi -->
+                <div class="bg-gray-100 dark:bg-gray-800 text-black dark:text-white rounded-xl p-8 shadow-md">
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-4">Deskripsi</h2>
 
-                            @foreach ($informasi as $info)
-                                <p class="mt-4 text-gray-500 dark:text-gray-400">
+                    @foreach ($informasi as $index => $info)
+                        <div x-data="{ open: false }" class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400">
+                                <span x-show="!open">
                                     {{ Str::limit($info->deskripsi, 180) }}
-                                </p>
-                            @endforeach
+                                </span>
+                                <span x-show="open">
+                                    {{ $info->deskripsi }}
+                                </span>
+                            </p>
+                            @if (Str::length($info->deskripsi) > 180)
+                                <button
+                                    class="mt-2 text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium"
+                                    @click="open = !open"
+                                    x-text="open ? 'Tampilkan lebih sedikit' : 'Tampilkan lebih banyak'">
+                                </button>
+                            @endif
                         </div>
-                    </div>
+                    @endforeach
+                </div>
 
-                    <div>
-                        <div>
-                            <td class="border px-4 py-2">
-                                @php
-                                    // Mengambil informasi pertama (indeks 0)
-                                    $info = $informasi[0] ?? null; // Default null jika tidak ada informasi pertama
-                                @endphp
+                <!-- Video Thumbnail -->
+                <div class="grid grid-cols-1 gap-6">
+                    @for ($i = 0; $i < 2; $i++)
+                        @php
+                            $info = $informasi[$i] ?? null;
+                            $videoLink = $info->video_link ?? null;
+                            $videoId = null;
 
-                                @if ($info && $info->video_link)
-                                    @php
-                                        // Menggunakan video_link dari database
-                                        $videoLink = $info->video_link;
+                            if ($videoLink) {
+                                preg_match(
+                                    '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?\/?|watch\?v=))|youtu\.be\/)([^\&\?\/]+)/',
+                                    $videoLink,
+                                    $matches,
+                                );
+                                $videoId = $matches[1] ?? null;
+                            }
 
-                                        // Regex untuk mengambil ID video
-                                        preg_match(
-                                            '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?\/?|watch\?v=))|youtu\.be\/)([^\&\?\/]+)/',
-                                            $videoLink,
-                                            $matches,
-                                        );
-                                        $videoId = $matches[1] ?? null;
-                                    @endphp
+                            $thumbnail = $videoId
+                                ? "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg"
+                                : 'https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop';
+                        @endphp
 
-                                    @if ($videoId)
-                                        <!-- Tampilkan thumbnail video pertama -->
-                                        <a href="{{ $videoLink }}" class="flex justify-center" target="_blank">
-                                            <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
-                                                class="rounded my-4" alt="Thumbnail Video">
-                                        </a>
-                                    @else
-                                        <!-- Tampilkan gambar default jika ID video tidak ditemukan -->
-                                        <img src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop"
-                                            class="rounded my-4" alt="Thumbnail Default">
-                                    @endif
-                                @else
-                                    <!-- Jika video_link kosong -->
-                                    <img src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop"
-                                        class="rounded my-4" alt="Thumbnail Default">
-                                @endif
-                            </td>
-                            <td class="border px-4 py-2">
-                                @php
-                                    // Mengambil informasi pertama (indeks 0)
-                                    $info = $informasi[1] ?? null; // Default null jika tidak ada informasi pertama
-                                @endphp
-
-                                @if ($info && $info->video_link)
-                                    @php
-                                        // Menggunakan video_link dari database
-                                        $videoLink = $info->video_link;
-
-                                        // Regex untuk mengambil ID video
-                                        preg_match(
-                                            '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?\/?|watch\?v=))|youtu\.be\/)([^\&\?\/]+)/',
-                                            $videoLink,
-                                            $matches,
-                                        );
-                                        $videoId = $matches[1] ?? null;
-                                    @endphp
-
-                                    @if ($videoId)
-                                        <!-- Tampilkan thumbnail video pertama -->
-                                        <a href="{{ $videoLink }}" class="flex justify-center" target="_blank">
-                                            <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg"
-                                                class="rounded my-4" alt="Thumbnail Video">
-                                        </a>
-                                    @else
-                                        <!-- Tampilkan gambar default jika ID video tidak ditemukan -->
-                                        <img src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop"
-                                            class="rounded my-4" alt="Thumbnail Default">
-                                    @endif
-                                @else
-                                    <!-- Jika video_link kosong -->
-                                    <img src="https://images.unsplash.com/photo-1731690415686-e68f78e2b5bd?q=80&w=2670&auto=format&fit=crop"
-                                        class="rounded my-4" alt="Thumbnail Default">
-                                @endif
-                            </td>
-                        </div>
-                    </div>
+                        <a href="{{ $videoLink ?? '#' }}" target="_blank"
+                            class="block overflow-hidden rounded-xl shadow-md hover:shadow-lg transition duration-300">
+                            <img src="{{ $thumbnail }}" alt="Thumbnail Video"
+                                class="w-full object-cover aspect-video">
+                        </a>
+                    @endfor
                 </div>
             </div>
         </section>
