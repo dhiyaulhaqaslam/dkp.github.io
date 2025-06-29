@@ -67,7 +67,9 @@
                         class="mb-4 p-4 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg hover:shadow-lg transition">
                         <div class="flex justify-between items-center mb-1">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $feedback->name }}</h3>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $feedback->email }}</span>
+                            @auth
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ $feedback->email }}</span>
+                            @endauth
                         </div>
                         <p class="text-sm text-gray-700 dark:text-gray-300">{{ $feedback->message }}</p>
                     </div>
