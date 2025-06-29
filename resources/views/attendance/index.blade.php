@@ -43,35 +43,42 @@
         </form>
     </div>
 
-    <div class="max-w-7xl mx-auto mt-4 p-6 shadow-md rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+    <div
+        class="max-w-7xl mx-auto mt-4 p-6 shadow-md rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
         <h2 class="text-xl font-semibold mb-4">Rekap Absensi Seluruh Pengguna</h2>
 
-        <table class="min-w-full table-auto border dark:border-gray-600 text-sm">
-            <thead class="bg-gray-100 dark:bg-gray-700">
-                <tr>
-                    <th class="border border-gray-600 px-4 py-2">Tanggal</th>
-                    <th class="border border-gray-600 px-4 py-2">Waktu</th>
-                    <th class="border border-gray-600 px-4 py-2">Nama</th>
-                    <th class="border border-gray-600 px-4 py-2">Email</th>
-                    <th class="border border-gray-600 px-4 py-2">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody cla>
-                @forelse ($attendances as $attendance)
-                    <tr>
-                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->date }}</td>
-                        <td class="border border-gray-600 px-4 py-2">{{ \Carbon\Carbon::parse($attendance->time)->format('H:i:s') }}
-                        </td>
-                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->user->name ?? '-' }}</td>
-                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->user->email ?? '-' }}</td>
-                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->type }}</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="border px-4 py-2 text-center">Tidak ada data absensi</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <div class="overflow-x-auto rounded-lg border border-gray-600">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                        <tr>
+                            <th class="px-4 py-2 border border-gray-600 text-left rounded-tl-lg">Tanggal</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Waktu</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Nama</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Email</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left rounded-tr-lg">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($attendances as $loopIndex => $attendance)
+                            <tr>
+                                <td class="px-4 py-2 border border-gray-600 rounded-bl-lg">{{ $attendance->date }}</td>
+                                <td class="px-4 py-2 border border-gray-600">{{ \Carbon\Carbon::parse($attendance->time)->format('H:i:s') }}
+                                </td>
+                                <td class="px-4 py-2 border border-gray-600">{{ $attendance->user->name ?? '-' }}</td>
+                                <td class="px-4 py-2 border border-gray-600">{{ $attendance->user->email ?? '-' }}</td>
+                                <td class="px-4 py-2 border border-gray-600 rounded-br-lg">{{ $attendance->type }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="px-4 py-2 text-center">Tidak ada data absensi</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+
 </x-app-layout>
