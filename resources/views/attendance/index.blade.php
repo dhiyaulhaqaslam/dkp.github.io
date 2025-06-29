@@ -41,51 +41,30 @@
                 Absen
             </button>
         </form>
-
-        <h2 class="text-xl font-semibold mb-3">Riwayat Absensi</h2>
-        <ul class="list-disc pl-5">
-            @foreach ($attendances as $attendance)
-                <li class="flex items-center justify-between mb-1">
-                    <div>
-                        <strong>{{ $attendance->date }}</strong> - {{ $attendance->type }}
-                        <span class="text-sm text-gray-500">({{ $attendance->time->format('H:i:s') }})</span>
-                    </div>
-                    <form action="{{ route('attendance.destroy', $attendance->id) }}" method="POST"
-                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus absensi ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="ml-4 px-3 py-1 bg-red-500 text-white font-light rounded-md hover:bg-red-600 transition duration-300">
-                            Delete
-                        </button>
-                    </form>
-                </li>
-            @endforeach
-        </ul>
     </div>
 
     <div class="max-w-7xl mx-auto mt-4 p-6 shadow-md rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
         <h2 class="text-xl font-semibold mb-4">Rekap Absensi Seluruh Pengguna</h2>
 
-        <table class="min-w-full table-auto border border-gray-300 dark:border-gray-600 text-sm">
+        <table class="min-w-full table-auto border dark:border-gray-600 text-sm">
             <thead class="bg-gray-100 dark:bg-gray-700">
                 <tr>
-                    <th class="border px-4 py-2">Tanggal</th>
-                    <th class="border px-4 py-2">Waktu</th>
-                    <th class="border px-4 py-2">Nama</th>
-                    <th class="border px-4 py-2">Email</th>
-                    <th class="border px-4 py-2">Keterangan</th>
+                    <th class="border border-gray-600 px-4 py-2">Tanggal</th>
+                    <th class="border border-gray-600 px-4 py-2">Waktu</th>
+                    <th class="border border-gray-600 px-4 py-2">Nama</th>
+                    <th class="border border-gray-600 px-4 py-2">Email</th>
+                    <th class="border border-gray-600 px-4 py-2">Keterangan</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody cla>
                 @forelse ($attendances as $attendance)
                     <tr>
-                        <td class="border px-4 py-2">{{ $attendance->date }}</td>
-                        <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($attendance->time)->format('H:i:s') }}
+                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->date }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ \Carbon\Carbon::parse($attendance->time)->format('H:i:s') }}
                         </td>
-                        <td class="border px-4 py-2">{{ $attendance->user->name ?? '-' }}</td>
-                        <td class="border px-4 py-2">{{ $attendance->user->email ?? '-' }}</td>
-                        <td class="border px-4 py-2">{{ $attendance->type }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->user->name ?? '-' }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->user->email ?? '-' }}</td>
+                        <td class="border border-gray-600 px-4 py-2">{{ $attendance->type }}</td>
                     </tr>
                 @empty
                     <tr>
