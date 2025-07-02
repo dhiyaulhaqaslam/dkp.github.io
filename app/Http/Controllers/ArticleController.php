@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use Cache;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -11,24 +13,23 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::query();
 
-        // Ambil keyword dari request untuk fitur search
         $search = $request->input('search');
 
-        // Jika ada search, tambahkan ke query
-        if ($search) {
-            $query->where(function ($q) use ($search) {
+        // Jika tidak ada pencarian, pakai cache
+        if (!$search) {
+            $articles = Cache::remember('semua-article', 60, function () {
+                return Article::all();
+            });
+        } else {
+            // Jika ada pencarian, query langsung tanpa cache
+            $articles = Article::where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('excerpt', 'like', "%{$search}%")
                     ->orWhere('tanggal', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
-
-            });
+            })->get();
         }
-
-        // Ambil artikel berdasarkan query
-        $articles = $query->get();
 
         // Tambahkan properti `image_path` untuk setiap artikel
         foreach ($articles as $article) {
@@ -75,6 +76,7 @@ class ArticleController extends Controller
         // Simpan data ke database
         $validated['slug'] = Str::slug($validated['title']);
         Article::create($validated);
+        Cache::forget('semua-article');
         return redirect()->route('article.show', $validated['slug']);
     }
 
@@ -128,6 +130,7 @@ class ArticleController extends Controller
         }
 
         $article->update($validated);
+        Cache::forget('semua-article');
 
         return redirect()->route('article.index')->with('success', 'Artikel berhasil diperbarui!');
     }
@@ -135,6 +138,7 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $article->delete();
+        Cache::forget('semua-article');
 
         return redirect()->route('article.index')->with('success', 'Artikel berhasil dihapus!');
     }

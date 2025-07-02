@@ -4,36 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ProjectController extends Controller
 {
-   public function index(Request $request)
+    public function index(Request $request)
     {
-        $query = Project::query();
-
-        // Ambil keyword dari request untuk fitur search
         $search = $request->input('search');
+        $sortBy = $request->get('sort_by', 'nama');
+        $sortOrder = $request->get('sort_order', 'asc');
+        $validColumns = ['nama', 'status', 'tanggal'];
 
-        // Jika ada search, tambahkan ke query
-        if ($search) {
+        // Buat key cache dinamis
+        $cacheKey = 'semua-projects:' . md5($search . '|' . $sortBy . '|' . $sortOrder . '|' . $request->get('page', 1));
+
+        if (!$search) {
+            $projects = Cache::remember($cacheKey, 60, function () use ($sortBy, $sortOrder, $validColumns) {
+                $query = Project::query();
+                if (in_array($sortBy, $validColumns)) {
+                    $query->orderBy($sortBy, $sortOrder);
+                }
+                return $query->paginate(10);
+            });
+        } else {
+            $query = Project::query();
+
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%")
                     ->orWhere('tanggal', 'like', "%{$search}%");
             });
+
+            if (in_array($sortBy, $validColumns)) {
+                $query->orderBy($sortBy, $sortOrder);
+            }
+
+            $projects = $query->paginate(10);
         }
-
-        // Sorting berdasarkan kolom dan arah
-        $sortBy = $request->get('sort_by', 'nama'); // default sort by nama
-        $sortOrder = $request->get('sort_order', 'asc'); // default ascending
-
-        // Validasi kolom yang bisa disorting
-        $validColumns = ['nama', 'status', 'tanggal'];
-        if (in_array($sortBy, $validColumns)) {
-            $query->orderBy($sortBy, $sortOrder);
-        }
-
-        $projects = $query->paginate(10);
 
         return view('projects.index', [
             'projects' => $projects,
@@ -64,10 +71,10 @@ class ProjectController extends Controller
             'status' => ['required', 'in:rencana,progres,arsip'],
         ]);
 
-        // Pastikan nilai tanggal kosong diubah menjadi null
         $validated['tanggal'] = $validated['tanggal'] ?? null;
-
         Project::create($validated);
+
+        Cache::flush(); // Kosongkan cache setelah create
 
         return redirect()->route('projects.index')->with('success', 'Proyek berhasil ditambahkan!');
     }
@@ -97,10 +104,10 @@ class ProjectController extends Controller
             'status' => ['required', 'in:rencana,progres,arsip'],
         ]);
 
-        // Pastikan nilai tanggal kosong diubah menjadi null
         $validated['tanggal'] = $validated['tanggal'] ?? null;
-
         $project->update($validated);
+
+        Cache::flush(); // Kosongkan cache setelah update
 
         return redirect()->route('projects.index')->with('success', 'Proyek berhasil diperbarui!');
     }
@@ -108,6 +115,8 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+
+        Cache::flush(); // Kosongkan cache setelah delete
 
         return redirect()->route('projects.index')->with('success', 'Proyek berhasil dihapus!');
     }

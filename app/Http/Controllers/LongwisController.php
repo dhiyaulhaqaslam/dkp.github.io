@@ -5,18 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Longwis;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Cache;
 
 class LongwisController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Longwis::query();
-
-        // Ambil keyword dari request untuk fitur search
         $search = $request->input('search');
+        $sortBy = $request->get('sort_by', 'nama');
+        $sortOrder = $request->get('sort_order', 'asc');
+        $validColumns = ['nama', 'tanggal', 'alamat', 'penduduk', 'rumah'];
 
-        // Jika ada search, tambahkan ke query
-        if ($search) {
+        // Buat key cache dinamis berdasarkan search dan sorting
+        $cacheKey = 'semua-longwis:' . md5($search . '|' . $sortBy . '|' . $sortOrder . '|' . $request->get('page', 1));
+
+        if (!$search) {
+            $longwis = Cache::remember($cacheKey, 60, function () use ($sortBy, $sortOrder, $validColumns) {
+                $query = Longwis::query();
+
+                if (in_array($sortBy, $validColumns)) {
+                    $query->orderBy($sortBy, $sortOrder);
+                }
+
+                return $query->paginate(10);
+            });
+        } else {
+            $query = Longwis::query();
+
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                     ->orWhere('alamat', 'like', "%{$search}%")
@@ -25,22 +40,14 @@ class LongwisController extends Controller
                     ->orWhere('rumah', 'like', "%{$search}%")
                     ->orWhere('status', 'like', "%{$search}%");
             });
+
+            if (in_array($sortBy, $validColumns)) {
+                $query->orderBy($sortBy, $sortOrder);
+            }
+
+            $longwis = $query->paginate(10);
         }
 
-        // Sorting berdasarkan kolom dan arah
-        $sortBy = $request->get('sort_by', 'nama'); // Default sorting berdasarkan nama
-        $sortOrder = $request->get('sort_order', 'asc'); // Default ascending
-
-        // Validasi kolom yang bisa disort
-        $validColumns = ['nama', 'tanggal', 'alamat', 'penduduk', 'rumah'];
-        if (in_array($sortBy, $validColumns)) {
-            $query->orderBy($sortBy, $sortOrder);
-        }
-
-        // Eksekusi query dengan pagination
-        $longwis = $query->paginate(10);
-
-        // Passing data ke view
         return view('longwis.index', [
             'title' => 'Daftar Longwis',
             'longwis' => $longwis,
@@ -52,18 +59,19 @@ class LongwisController extends Controller
 
     public function create()
     {
-
         if (!auth()->check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
+
         return view('longwis.create', [
-            'title' => 'Create Data Longwis', // Pastikan variabel ini ada
+            'title' => 'Create Data Longwis',
         ]);
     }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => ['required', 'regex:/^(?=.*[a-zA-Z0-9]).+$/', 'max:255'], // Menambahkan regex untuk validasi nama
+            'nama' => ['required', 'regex:/^(?=.*[a-zA-Z0-9]).+$/', 'max:255'],
             'tanggal' => ['nullable', 'date', 'date_format:Y-m-d'],
             'alamat' => ['required', 'regex:/^[\w\s,.\'!&()-]+$/', 'max:255'],
             'penduduk' => 'required|integer',
@@ -77,34 +85,31 @@ class LongwisController extends Controller
         ]);
 
         Longwis::create($validated);
+        Cache::flush(); // Kosongkan semua cache longwis
 
         return redirect()->route('longwis.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
-
     public function show($id)
     {
-        $longwis = Longwis::findOrFail($id); // Menemukan data longwis berdasarkan ID
-        $title = "Detail Longwis"; // Atur title sesuai kebutuhan
+        $longwis = Longwis::findOrFail($id);
+        $title = "Detail Longwis";
+
         return view('longwis.show', compact('longwis', 'title'));
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
         $longwis = Longwis::findOrFail($id);
-        $title = "Edit Data Longwis"; // Definisikan variabel title
+        $title = "Edit Data Longwis";
+
         return view('longwis.edit', compact('longwis', 'title'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'nama' => ['required', 'regex:/^(?=.*[a-zA-Z0-9]).+$/', 'max:255'], // Menambahkan regex untuk validasi nama
+            'nama' => ['required', 'regex:/^(?=.*[a-zA-Z0-9]).+$/', 'max:255'],
             'alamat' => ['required', 'regex:/^[\w\s,.\'!&()-]+$/', 'max:255'],
             'penduduk' => 'nullable|integer',
             'keluarga' => 'nullable|integer',
@@ -124,13 +129,19 @@ class LongwisController extends Controller
         $longwis = Longwis::findOrFail($id);
         $longwis->update($validatedData);
 
+        Cache::flush(); // Kosongkan cache setelah update
+
         return redirect()->route('longwis.show', $id)
             ->with('success', 'Data berhasil diperbarui.');
     }
+
     public function destroy($id)
     {
-        $longwis = Longwis::findOrFail($id); // Cari data berdasarkan ID
-        $longwis->delete(); // Delete data
+        $longwis = Longwis::findOrFail($id);
+        $longwis->delete();
+
+        Cache::flush(); // Kosongkan cache setelah delete
+
         return redirect()->route('longwis.index')->with('success', 'Data Longwis berhasil dihapus!');
     }
 
