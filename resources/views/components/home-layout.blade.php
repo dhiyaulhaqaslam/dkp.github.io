@@ -524,10 +524,6 @@
                 Created with
                 <a href="#"
                     class="underline transition hover:text-indigo-800/100 dark:hover:text-gray-100/75">Laravel</a>
-                and
-                <a href="#"
-                    class="underline transition hover:text-indigo-800/100 dark:hover:text-gray-100/75">Laravel
-                    Livewire</a>.
             </p>
         </div>
     </div>
