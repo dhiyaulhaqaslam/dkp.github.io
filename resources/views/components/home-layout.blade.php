@@ -297,8 +297,7 @@
                 </h1>
 
                 <p class="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus
-                    numquam ea!
+                    Selamat Datang di Website Dinas Ketahanan Pangan Kota Makassar Bidang Konsumsi dan Penganekaragaman Pangan
                 </p>
 
                 <div class="mt-8 flex flex-wrap justify-center gap-4">
