@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
 
 // ==============================================CHATBOT==============================================
 Route::get('/chatbot/ask', [ChatbotController::class, 'ask'])->name('chatbot.ask');
-Route::post('/chatbot/chat', [ChatbotController::class, 'chat'])->name('chatbot.chat');
+Route::post('/chatbot/chat', [ChatbotController::class, 'chat']);
 Route::post('/chatbot/bulk-delete', [ChatbotController::class, 'bulkDelete'])->name('chatbot.bulk-delete');
 
 // ===============================================NAVBAR===============================================
