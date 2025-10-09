@@ -232,7 +232,6 @@
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                                 {{ $project->nama }}
                             </h3>
-                            <img src="{{ asset('storage/' . $project->image) }}" class="w-full h-48 object-cover rounded-md mb-4">
 
                             <p class="text-sm text-gray-500 mb-2">
                                 📅
