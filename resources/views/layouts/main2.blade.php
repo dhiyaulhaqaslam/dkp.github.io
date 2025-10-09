@@ -34,25 +34,28 @@
     <div class="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
 </div>
 @stack('scripts')
+
 <body
     class="antialiased font-poppins bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen">
-    <nav x-data="{ open: false }" class="dark:bg-gray-800 bg-gray-200/50 border-b border-gray-100 dark:border-gray-700">
+    <nav x-data="{ open: false }"
+        class="border-b border-gray-400 dark:border-gray-700 stroke-slate-950 bg-blend-color-dodge bg-gray-300/30 dark:bg-gray-900/75 static md:fixed z-50 w-full">
         <!-- Primary Navigation Menu -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->
-                    <div class="md:hidden xl:flex shrink-0 flex items-center">
+                    <div class="shrink-0 flex items-center">
                         <a id="openSidebarBtn">
                             <img src="{{ asset('ASSETS/dkp_mks.png') }}"
                                 class="block h-8 w-8 fill-current text-gray-200 dark:text-gray-200 rounded-full" />
                         </a>
                     </div>
+
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                         <x-nav-link :href="url($backUrl)">
                             <span
-                                class="rounded border border-indigo-600 dark:border-gray-600 dark:hover:border-indigo-600 px-1 md:px-3 py-2 text-indigo-600 dark:text-gray-100 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500 text-xs md:text-md">
+                                class="rounded border border-indigo-600 dark:border-gray-600 dark:hover:border-indigo-600 px-1 md:px-3 py-2 text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500 text-xs md:text-md">
                                 <svg class="w-6 md:w-4 h-4 rotate-180 inline-block" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -61,106 +64,63 @@
                                 <span class="hidden md:inline">Back</span>
                             </span>
                         </x-nav-link>
-                        @if (auth()->check())
-                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        @auth
+                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard') ||
+                                request()->routeIs('preference.*') ||
+                                request()->routeIs('attendance.*') ||
+                                request()->routeIs('informasi.*')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('welcome')"> <!-- Tautan ke halaman welcome -->
-                                {{ __('Home') }} <!-- Teks untuk Welcome -->
-                            </x-nav-link>
-                            <x-nav-link class="dark:hover:text-zinc-300" :href="route('about.index')" :active="request()->routeIs('about.index')">
-                                {{ __('About') }}
-                            </x-nav-link>
-                            <x-nav-link class="dark:hover:text-zinc-300" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
-                                {{ __('Contact') }}
-                            </x-nav-link>
-                            <button id="dropdownButton"
-                                class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 dark:text-gray-400 hover:text-zinc-800 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-800 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
-                                {{ __('Features') }}
-                                <!-- Icon panah bawah -->
-                                <svg class="w-4 h-4 ms-1 text-gray-500 group-hover:text-gray-800 dark:text-gray-400 dark:group-hover:text-white"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                </svg>
-                                <!-- Dropdown Content -->
-                                <div id="dropdownMenu"
-                                    class="absolute left-0 hidden group-hover:block w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10 dark:bg-gray-800"
-                                    style="top: calc(100% + 0.5rem);">
-                                    <a href="{{ route('article.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Article') }}
-                                    </a>
-                                    <a href="{{ route('longwis.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Longwis') }}
-                                    </a>
-                                    <a href="{{ route('projects.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Project') }}
-                                    </a>
-                                    <a href="{{ route('chatbot.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Chatbot') }}
-                                    </a>
-                                    <a href="{{ route('feedbacks.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Feedback') }}
-                                    </a>
-                                </div>
-                            </button>
-                        @else
-                            <x-nav-link :href="route('welcome')"> <!-- Tautan ke halaman welcome -->
-                                {{ __('Home') }} <!-- Teks untuk Welcome -->
-                            </x-nav-link>
-                            <x-nav-link class="text-white hover:text-zinc-300" :href="route('about.index')" :active="request()->routeIs('about.index')">
-                                {{ __('About') }}
-                            </x-nav-link>
-                            <x-nav-link class="text-white hover:text-zinc-300" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
-                                {{ __('Contact') }}
-                            </x-nav-link>
-                            <button id="dropdownButton"
-                                class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-white dark:text-gray-400 hover:text-zinc-300 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-200 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
-                                {{ __('Features') }}
-                                <!-- Icon panah bawah -->
-                                <svg class="w-4 h-4 ms-1 text-gray-500 group-hover:text-gray-800 dark:text-gray-400 dark:group-hover:text-white"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 9l-7 7-7-7" />
-                                </svg>
-                                <!-- Dropdown Content -->
-                                <div id="dropdownMenu"
-                                    class="absolute left-0 hidden group-hover:block w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10 dark:bg-gray-800"
-                                    style="top: calc(100% + 0.5rem);">
-                                    <a href="{{ route('article.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Article') }}
-                                    </a>
-                                    <a href="{{ route('longwis.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Longwis') }}
-                                    </a>
-                                    <a href="{{ route('projects.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Project') }}
-                                    </a>
-                                    <a href="{{ route('chatbot.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Chatbot') }}
-                                    </a>
-                                    <a href="{{ route('feedbacks.index') }}"
-                                        class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
-                                        {{ __('Feedback') }}
-                                    </a>
-                                </div>
-                            </button>
-                        @endif
+                        @endauth
+                        <x-nav-link class="text-white hover:text-zinc-300" :href="route('welcome')" :active="request()->is('welcome')">
+                            {{ __('Home') }}
+                        </x-nav-link>
+                        <x-nav-link class="text-white hover:text-zinc-300" :href="route('about.index')" :active="request()->routeIs('about.index')">
+                            {{ __('About') }}
+                        </x-nav-link>
+                        <x-nav-link class="text-white hover:text-zinc-300" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
+                            {{ __('Contact') }}
+                        </x-nav-link>
+                        <!-- Teks Features -->
+                        <button id="dropdownButton"
+                            class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-white dark:text-gray-400 hover:text-zinc-300 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-200 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
+                            {{ __('Features') }}
+                            <!-- Icon panah bawah -->
+                            <svg class="w-4 h-4 ms-1 text-gray-500 group-hover:text-gray-800 dark:text-gray-400 dark:group-hover:text-white"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                            <!-- Dropdown Content -->
+                            <div id="dropdownMenu"
+                                class="absolute left-0 hidden group-hover:block w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10 dark:bg-gray-800"
+                                style="top: calc(100% + 0.5rem);">
+                                <a href="{{ route('article.index') }}"
+                                    class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    {{ __('Article') }}
+                                </a>
+                                <a href="{{ route('longwis.index') }}"
+                                    class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    {{ __('Longwis') }}
+                                </a>
+                                <a href="{{ route('projects.index') }}"
+                                    class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    {{ __('Project') }}
+                                </a>
+                                <a href="{{ route('chatbot.ask') }}"
+                                    class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    {{ __('Chatbot') }}
+                                </a>
+                                <a href="{{ route('feedbacks.index') }}"
+                                    class="block px-4 py-2 text-start text-gray-800 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700">
+                                    {{ __('Feedbacks') }}
+                                </a>
+                            </div>
+                        </button>
                     </div>
                 </div>
 
-                {{-- dropdown features --}}
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         const dropdownButton = document.getElementById('dropdownButton');
@@ -184,24 +144,26 @@
                 <div class="hidden md:flex md:items-center md:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                <div>
-                                    @auth
-                                        {{ Auth::user()->name }}
-                                    @else
-                                        {{ __('Guest') }}
-                                    @endauth
-                                </div>
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
+                            @auth
+                                <button
+                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                    <div>{{ Auth::user()->name }}</div>
+
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
+                            @else
+                                <button
+                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                    <div>Guest</div>
+                                </button>
+                            @endauth
                         </x-slot>
 
                         <x-slot name="content">
@@ -213,6 +175,7 @@
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
+
                                     <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();
                                                         this.closest('form').submit();">
@@ -222,6 +185,9 @@
                             @else
                                 <x-dropdown-link :href="route('login')">
                                     {{ __('Login') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('register')">
+                                    {{ __('Register') }}
                                 </x-dropdown-link>
                             @endauth
                         </x-slot>
@@ -247,106 +213,66 @@
 
         <!-- Responsive Navigation Menu -->
         <div :class="{ 'block': open, 'hidden': !open }" class="hidden md:hidden">
-            <div class="pt-2 pb-3 space-y-1">
-                @if (auth()->check())
-                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+            <!-- Dashboard Link -->
+            <div class="pt-2 space-y-1">
+                <x-responsive-nav-link class="" :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link class="" :href="route('welcome')" :active="request()->is('welcome')">
+                    {{ __('Home') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link class="" :href="route('about.index')" :active="request()->routeIs('about.index')">
+                    {{ __('About') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link class="" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
+                    {{ __('Contact') }}
+                </x-responsive-nav-link>
+            </div>
+            <!-- Features Dropdown -->
+            <div x-data="{ openFeatures: false }" class="space-y-1">
+                <x-responsive-nav-link class="" href="#"
+                    @click.prevent="openFeatures = !openFeatures">
+                    Features
+                    <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
+                        class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </x-responsive-nav-link>
+                <div x-show="openFeatures" x-transition class="space-y-1 pl-4">
+                    <x-responsive-nav-link class="" :href="route('article.index')" :active="request()->routeIs('article.index')">
+                        {{ __('Article') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('welcome')"> <!-- Tautan ke halaman welcome -->
-                        {{ __('Home') }} <!-- Teks untuk Welcome -->
+                    <x-responsive-nav-link class="" :href="route('longwis.index')" :active="request()->routeIs('longwis.index')">
+                        {{ __('Longwis') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link class="text-white/100" :href="route('about.index')" :active="request()->routeIs('about.index')">
-                        {{ __('About') }}
+                    <x-responsive-nav-link class="" :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                        {{ __('Projects') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link class="text-white/100" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
-                        {{ __('Contact') }}
+                    <x-responsive-nav-link class="" :href="route('chatbot.ask')" :active="request()->routeIs('chatbot.ask')">
+                        {{ __('Chatbot') }}
                     </x-responsive-nav-link>
-                    <!-- Features Dropdown -->
-                    <div x-data="{ openFeatures: false }" class="space-y-1">
-                        <x-responsive-nav-link class="text-white/100" href="#"
-                            @click.prevent="openFeatures = !openFeatures">
-                            Features
-                            <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
-                                class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </x-responsive-nav-link>
-                        <div x-show="openFeatures" x-transition class="space-y-1 pl-4">
-                            <x-responsive-nav-link class="text-white/100" :href="route('article.index')" :active="request()->routeIs('article.index')">
-                                {{ __('Article') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('longwis.index')" :active="request()->routeIs('longwis.index')">
-                                {{ __('Longwis') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('projects.index')" :active="request()->routeIs('projects.index')">
-                                {{ __('Projects') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('chatbot.ask')" :active="request()->routeIs('chatbot.ask')">
-                                {{ __('Chatbot') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('feedbacks.index')" :active="request()->routeIs('feedbacks.index')">
-                                {{ __('Feedbacks') }}
-                            </x-responsive-nav-link>
-                        </div>
-                    </div>
-                @else
-                    <x-responsive-nav-link :href="route('welcome')"> <!-- Tautan ke halaman welcome -->
-                        {{ __('Home') }} <!-- Teks untuk Welcome -->
+                    <x-responsive-nav-link class="" :href="route('feedbacks.index')" :active="request()->routeIs('feedbacks.index')">
+                        {{ __('Feedbacks') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link class="text-white/100" :href="route('about.index')" :active="request()->routeIs('about.index')">
-                        {{ __('About') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link class="text-white/100" :href="route('contact.index')" :active="request()->routeIs('contact.index')">
-                        {{ __('Contact') }}
-                    </x-responsive-nav-link>
-                    <!-- Features Dropdown -->
-                    <div x-data="{ openFeatures: false }" class="space-y-1">
-                        <x-responsive-nav-link class="text-white/100" href="#"
-                            @click.prevent="openFeatures = !openFeatures">
-                            Features
-                            <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
-                                class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </x-responsive-nav-link>
-                        <div x-show="openFeatures" x-transition class="space-y-1 pl-4">
-                            <x-responsive-nav-link class="text-white/100" :href="route('article.index')" :active="request()->routeIs('article.index')">
-                                {{ __('Article') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('longwis.index')" :active="request()->routeIs('longwis.index')">
-                                {{ __('Longwis') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('projects.index')" :active="request()->routeIs('projects.index')">
-                                {{ __('Projects') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('chatbot.ask')" :active="request()->routeIs('chatbot.ask')">
-                                {{ __('Chatbot') }}
-                            </x-responsive-nav-link>
-                            <x-responsive-nav-link class="text-white/100" :href="route('feedbacks.index')" :active="request()->routeIs('feedbacks.index')">
-                                {{ __('Feedbacks') }}
-                            </x-responsive-nav-link>
-                        </div>
-                    </div>
-                @endif
+                </div>
             </div>
 
             <!-- Responsive Settings Options -->
-            <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                @if (auth()->check())
-                    <!-- Jika pengguna sudah login -->
-                    <div class="px-4">
-                        <div class="font-medium text-base">{{ Auth::user()->name }}</div>
+            <div class="pt-4 pb-1 border-t border-gray-400 dark:border-gray-600">
+                <div class="px-4">
+                    @auth
+                        <div class="font-medium text-base">{{ Auth::user()->name }}
+                        </div>
                         <div class="font-medium text-sm">{{ Auth::user()->email }}</div>
-                    </div>
+                    @else
+                        <div class="font-medium text-base text-gray-600 dark:text-red-400">Guest</div>
+                    @endauth
+                </div>
 
-                    <div class="space-y-1">
-                        <x-responsive-nav-link :href="route('profile.edit')">
+                <div class="mt-3 space-y-1">
+                    @auth
+                        <x-responsive-nav-link class="" :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-responsive-nav-link>
 
@@ -354,23 +280,22 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-responsive-nav-link :href="route('logout')"
+                            <x-responsive-nav-link class="" :href="route('logout')"
                                 onclick="event.preventDefault();
-                                this.closest('form').submit();">
+                                                this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-responsive-nav-link>
                         </form>
-                    </div>
-                @else
-                    <!-- Jika pengguna belum login -->
-                    <div class="space-y-1">
-                        <x-responsive-nav-link :href="route('login')">
+                    @else
+                        <x-responsive-nav-link class="" :href="route('login')">
                             {{ __('Login') }}
                         </x-responsive-nav-link>
-                    </div>
-                @endif
+                    @endauth
+                </div>
             </div>
         </div>
+
+        <script src="{{ asset('js/app.js') }}" defer></script>
     </nav>
     <div class="flex-grow bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
         @yield('content')
