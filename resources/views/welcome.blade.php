@@ -214,6 +214,59 @@
                 </div>
             </div>
         </section>
+
+        {{-- DATA PROJECTS --}}
+        <section class="bg-white dark:bg-gray-900 py-12" data-aos="fade-up">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-gray-100">
+                    Project DKP Makassar
+                </h2>
+
+                <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Daftar proyek kegiatan terbaru dari DKP Makassar.
+                </p>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach ($projects as $project)
+                        <div class="rounded-lg bg-gray-50 dark:bg-gray-800 shadow hover:shadow-lg transition p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                                {{ $project->nama }}
+                            </h3>
+                            <img src="{{ asset('storage/' . $project->image) }}" class="w-full h-48 object-cover rounded-md mb-4">
+
+                            <p class="text-sm text-gray-500 mb-2">
+                                📅
+                                {{ $project->tanggal ? \Carbon\Carbon::parse($project->tanggal)->format('d M Y') : 'Belum dijadwalkan' }}
+                            </p>
+                            <p class="text-sm mb-3 text-gray-700 dark:text-gray-300">
+                                {!! Str::limit(strip_tags($project->description), 120) !!}
+                            </p>
+                            <p class="text-xs text-gray-600 mb-4">
+                                Status:
+                                <span
+                                    class="font-medium
+                            @if ($project->status === 'rencana') text-yellow-600
+                            @elseif($project->status === 'progres') text-blue-600
+                            @elseif($project->status === 'arsip') text-gray-500 @endif">
+                                    {{ ucfirst($project->status) }}
+                                </span>
+                            </p>
+                            <a href="{{ route('projects.show', $project->id) }}"
+                                class="text-indigo-600 hover:underline font-medium text-sm">
+                                Lihat Detail →
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-8 text-center">
+                    <a href="{{ route('projects.index') }}"
+                        class="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                        Lihat Semua Project
+                    </a>
+                </div>
+            </div>
+        </section>
     </div>
 
     {{-- Inline scripts for interactions (toggle details + keen slider init) --}}

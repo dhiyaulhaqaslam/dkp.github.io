@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Informasi;
 use App\Models\Priority;
-use App\Models\Longwis; // ← tambahkan ini
+use App\Models\Longwis;
+use App\Models\Project;
 
 class HomeController extends Controller
 {
@@ -15,14 +16,16 @@ class HomeController extends Controller
         $articles = Article::latest()->paginate(4);
         $informasi = Informasi::all();
         $priorities = Priority::all();
-        $longwis = Longwis::latest()->take(6)->get(); // ← ambil data longwis
+        $longwis = Longwis::latest()->take(6)->get();
+        $projects = Project::latest()->take(6)->get();
 
         return view('welcome', [
             'title' => 'Home',
             'articles' => $articles,
             'informasi' => $informasi,
             'priorities' => $priorities,
-            'longwis' => $longwis, // ← kirim ke view
+            'longwis' => $longwis,
+            'projects' => $projects,
         ]);
     }
 }
