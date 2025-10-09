@@ -9,7 +9,14 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.5/dist/cdn.min.js" defer></script>
     <script src="https://kit.fontawesome.com/19579c18fe.js" crossorigin="anonymous"></script> <!--FONT AWESOME-->
     <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (app()->environment('production'))
+        <!-- Jika di hosting -->
+        <link rel="stylesheet" href="{{ asset('build/assets/app-CZeGmhTr.css') }}">
+        <script src="{{ asset('build/assets/app-CUW5_qJq.js') }}" defer></script>
+    @else
+        <!-- Jika di localhost -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     <link rel="shortcut icon" href="{{ asset('ASSETS/dkp_mks.png') }}" type="image/x-icon">
     <script src="{{ asset('js/animasi-loading.js') }}"></script>
     <style>
@@ -36,7 +43,7 @@
     <div class="bg-cover items-center lg:max-h-full bg-no-repeat bg-blend-color-dodge bg-gray-700/70 dark:bg-gray-900/75"
         style="background-image: url('{{ asset('ASSETS/banner1-pangan.jpg') }}');">
         <nav x-data="{ open: false }"
-            class="text-gray-200 dark:text-red-400 border-b border-gray-400 dark:border-gray-700 stroke-slate-950 bg-blend-color-dodge bg-gray-700/70 dark:bg-gray-900/75">
+            class="text-gray-200 dark:text-red-400 border-b border-gray-400 dark:border-gray-700 stroke-slate-950 bg-blend-color-dodge bg-gray-700/70 dark:bg-gray-900/75 static md:fixed z-50 w-full">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -222,7 +229,8 @@
                         Features
                         <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
                             class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 9l-7 7-7-7" />
                         </svg>
@@ -297,7 +305,8 @@
                 </h1>
 
                 <p class="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-                    Selamat Datang di Website Dinas Ketahanan Pangan Kota Makassar Bidang Konsumsi dan Penganekaragaman Pangan
+                    Selamat Datang di Website Dinas Ketahanan Pangan Kota Makassar Bidang Konsumsi dan Penganekaragaman
+                    Pangan
                 </p>
 
                 <div class="mt-8 flex flex-wrap justify-center gap-4">
