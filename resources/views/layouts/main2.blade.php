@@ -33,12 +33,39 @@
 <div id="loading-spinner" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
     <div class="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
 </div>
-@stack('scripts')
+<style>
+    nav {
+        position: static;
+        /* default: tidak fixed di mobile */
+        width: 100%;
+        z-index: 50;
+        background-color: rgba(31, 41, 55, 0.3);
+        /* mirip bg-gray-800/30 */
+        backdrop-filter: blur(6px);
+    }
 
+    @media (min-width: 768px) {
+        nav {
+            position: fixed;
+            /* aktif hanya di layar md ke atas */
+            top: 0;
+            left: 0;
+            z-index: 50;
+            width: 100%;
+            background-color: rgba(17, 24, 39, 0.75);
+            /* mirip dark:bg-gray-900/75 */
+        }
+         main, .page-content {
+            /* beri padding agar konten tidak tertutup navbar */
+            padding-top: 4rem; /* kira-kira tinggi navbar (64px) */
+        }
+    }
+</style>
+@stack('scripts')
 <body
     class="antialiased font-poppins bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen">
     <nav x-data="{ open: false }"
-        class="stroke-slate-950 bg-blend-color-dodge bg-gray-800/30 dark:bg-gray-900/75 static md:fixed z-50 w-full">
+        class="z-50 w-fullstroke-slate-950 bg-blend-color-dodge bg-gray-800/30 dark:bg-gray-900/75">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -230,7 +257,8 @@
             </div>
             <!-- Features Dropdown -->
             <div x-data="{ openFeatures: false }" class="space-y-1">
-                <x-responsive-nav-link class="" href="#" @click.prevent="openFeatures = !openFeatures">
+                <x-responsive-nav-link class="" href="#"
+                    @click.prevent="openFeatures = !openFeatures">
                     Features
                     <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
                         class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
@@ -296,7 +324,8 @@
 
         <script src="{{ asset('js/app.js') }}" defer></script>
     </nav>
-    <div class="flex-grow bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
+
+    <div class="flex-grow pt-16 bg-gray-100 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
         @yield('content')
     </div>
     <script>
