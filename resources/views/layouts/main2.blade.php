@@ -38,7 +38,7 @@
 <body
     class="antialiased font-poppins bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen">
     <nav x-data="{ open: false }"
-        class="border-b border-gray-400 dark:border-gray-700 stroke-slate-950 bg-blend-color-dodge bg-gray-300/30 dark:bg-gray-900/75 static md:fixed z-50 w-full">
+        class="stroke-slate-950 bg-blend-color-dodge bg-gray-800/30 dark:bg-gray-900/75 static md:fixed z-50 w-full">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex justify-between h-16">
@@ -55,7 +55,7 @@
                     <div class="hidden space-x-8 md:-my-px md:ms-10 md:flex">
                         <x-nav-link :href="url($backUrl)">
                             <span
-                                class="rounded border border-indigo-600 dark:border-gray-600 dark:hover:border-indigo-600 px-1 md:px-3 py-2 text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500 text-xs md:text-md">
+                                class="rounded border border-gray-300 dark:border-gray-600 dark:hover:border-indigo-600 px-1 md:px-3 py-2 text-gray-100/100 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500 text-xs md:text-md">
                                 <svg class="w-6 md:w-4 h-4 rotate-180 inline-block" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -230,8 +230,7 @@
             </div>
             <!-- Features Dropdown -->
             <div x-data="{ openFeatures: false }" class="space-y-1">
-                <x-responsive-nav-link class="" href="#"
-                    @click.prevent="openFeatures = !openFeatures">
+                <x-responsive-nav-link class="" href="#" @click.prevent="openFeatures = !openFeatures">
                     Features
                     <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
                         class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
