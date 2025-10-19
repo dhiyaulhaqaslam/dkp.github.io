@@ -17,7 +17,10 @@ class ChatbotController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'x-goog-api-key' => $apiKey,
-        ])->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent', [
+        ])->post(
+                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+                ,
+                [
                     'contents' => [
                         [
                             'role' => 'user',
@@ -34,10 +37,14 @@ class ChatbotController extends Controller
                             ]
                         ]
                     ]
-                ]);
+                ]
+            );
 
         if ($response->failed()) {
-            return response()->json(['jawaban' => 'Maaf, terjadi kesalahan.']);
+            return response()->json([
+                'jawaban' => 'Maaf, terjadi kesalahan.',
+                'error_detail' => $response->body()
+            ]);
         }
 
         $result = $response->json();
