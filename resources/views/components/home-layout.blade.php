@@ -22,9 +22,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sofadi+One&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
     </style>
-    {{-- ASING --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <style>
         .bidang {
             max-height: 1080px;
@@ -296,8 +293,7 @@
         <!-- Page Content -->
         <section
             class="bidang text-white stroke-slate-950 lg:h-screen w-full px-4 py-32 mx-auto bg-blend-color-dodge bg-gray-700/70 dark:bg-gray-900/75 content-center">
-            <div class="mx-auto text-center max-w-screen-xl translate-y-10 transition-all duration-700 ease-in-out animate-fade-in"
-                data-aos="fade-up">
+            <div class="mx-auto text-center max-w-screen-xl translate-y-10 transition-all duration-700 ease-in-out animate-fade-in">
                 <h1 class="bg-clip-text text-3xl font-extrabold sm:text-5xl">
                     Bidang Konsumsi dan
 
@@ -328,7 +324,7 @@
     </main>
     <!-- SPONSOR -->
     <div class="">
-        <div class="py-16 sm:py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-white" data-aos="fade-right">
+        <div class="py-16 sm:py-20 bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div
                     class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
@@ -346,7 +342,7 @@
                 </div>
             </div>
         </div>
-        <footer class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white pb-4" data-aos="fade-up">
+        <footer class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white pb-4">
             <div class="mx-auto max-w-screen-xl px-4 pb-8 pt-16 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-md">
                     <strong
@@ -535,14 +531,6 @@
             </p>
         </div>
     </div>
-    {{-- ANIMASI MUNCUL --}}
-    <script>
-        AOS.init({
-            duration: 700, // Durasi animasi (dalam ms)
-            easing: 'ease-in-out', // Efek animasi
-            once: true // Animasi hanya berjalan sekali
-        });
-    </script>
 </body>
 
 </html>

@@ -12,8 +12,7 @@
                 ];
             @endphp
             @foreach ($stats as $stat)
-                <div class="bg-white/20 backdrop-blur-md rounded-xl p-6 text-center shadow-lg transform transition hover:scale-105"
-                    data-aos="fade-up">
+                <div class="bg-white/20 backdrop-blur-md rounded-xl p-6 text-center shadow-lg transform transition hover:scale-105">
                     <div class="text-3xl">{{ $stat['icon'] }}</div>
                     <dd class="text-4xl font-bold text-white">{{ $stat['count'] }}</dd>
                     <dt class="mt-2 text-sm text-white tracking-wide">{{ $stat['label'] }}</dt>
@@ -30,8 +29,7 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Artikel Terbaru</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse ($articles as $article)
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full"
-                        data-aos="fade-right">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full">
                         <div>
                             <h3 class="text-lg font-semibold mb-2">{{ $article->title }}</h3>
                             <p class="text-sm text-gray-700 dark:text-gray-300">{{ Str::limit($article->content, 90) }}
@@ -57,8 +55,7 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Data Longwis</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse ($longwis->take(3) as $lw)
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full"
-                        data-aos="fade-up">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full">
                         <div>
                             <h3 class="text-lg font-semibold mb-2">{{ $lw->nama }}</h3>
                             <p class="text-sm">Tanggal: {{ $lw->tanggal }}</p>
@@ -86,8 +83,7 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Daftar Project</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse ($projects as $project)
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full"
-                        data-aos="fade-left">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between h-full">
                         <div>
                             <h3 class="text-lg font-semibold mb-2">{{ $project->nama }}</h3>
                             <p class="text-sm text-gray-700 dark:text-gray-300">

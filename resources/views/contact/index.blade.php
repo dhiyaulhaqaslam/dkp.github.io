@@ -4,7 +4,7 @@
     <div class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-white py-16">
         <div class="max-w-6xl mx-auto px-6 lg:px-8">
             <!-- HEADER -->
-            <div class="text-center mb-12" data-aos="fade-down">
+            <div class="text-center mb-12">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Hubungi Kami</h1>
                 <p class="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     Kami senang mendengar pendapat Anda. Silakan hubungi kami melalui kontak di bawah atau kirimkan kritik
@@ -15,7 +15,7 @@
             <!-- INFORMASI KONTAK -->
             <div class="grid md:grid-cols-3 gap-8 mb-16">
                 <!-- Email -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center" data-aos="fade-right">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
                     <div class="text-blue-500 text-4xl mb-4">
                         <i class="fas fa-envelope"></i>
                     </div>
@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Telepon -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center" data-aos="fade-up">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
                     <div class="text-blue-500 text-4xl mb-4">
                         <i class="fas fa-phone"></i>
                     </div>
@@ -33,7 +33,7 @@
                 </div>
 
                 <!-- Alamat -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center" data-aos="fade-left">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
                     <div class="text-blue-500 text-4xl mb-4">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
@@ -46,7 +46,7 @@
             </div>
 
             <!-- FORM KRITIK DAN SARAN -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 max-w-3xl mx-auto" data-aos="fade-up">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 max-w-3xl mx-auto">
                 <h2 class="text-2xl font-bold text-center mb-6">Kritik dan Saran</h2>
 
                 @if (session('success'))

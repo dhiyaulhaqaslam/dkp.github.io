@@ -4,8 +4,7 @@
     <div class="bg-gray-50 dark:bg-gray-900 font-poppins">
         <!-- HERO SECTION -->
         <section class="relative h-[70vh] bg-cover bg-center flex items-center justify-center text-center"
-            style="background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2670&auto=format&fit=crop');"
-            data-aos="fade-down">
+            style="background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=2670&auto=format&fit=crop');">
             <div class="absolute inset-0 bg-black/50"></div>
             <div class="relative z-10 text-white px-4">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4">Tentang Kami</h1>
@@ -16,7 +15,7 @@
         </section>
 
         <!-- PROFIL SECTION -->
-        <section class="py-16 px-6" data-aos="fade-up">
+        <section class="py-16 px-6">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
@@ -42,7 +41,7 @@
         </section>
 
         <!-- INFORMASI SLIDER -->
-        <section class="bg-white dark:bg-gray-800 py-16" data-aos="fade-up">
+        <section class="bg-white dark:bg-gray-800 py-16">
             <div class="max-w-7xl mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-10">
                     Informasi & Pengumuman
@@ -72,7 +71,7 @@
         </section>
 
         <!-- VIDEO GALLERY -->
-        <section class="py-16 bg-gray-50 dark:bg-gray-900" data-aos="fade-right">
+        <section class="py-16 bg-gray-50 dark:bg-gray-900">
             <div class="max-w-6xl mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-10 text-center">
                     Video Kegiatan

@@ -20,8 +20,6 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
     {{-- ASING --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <style>
         body {
             overflow-x: hidden;
@@ -32,8 +30,7 @@
 <body class="font-sans antialiased">
     <div class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white dark:bg-gray-800 border-r hidden lg:block border-gray-200 dark:border-gray-700"
-            data-aos="fade-right">
+        <aside class="w-64 bg-white dark:bg-gray-800 border-r hidden lg:block border-gray-200 dark:border-gray-700">
             <div class="px-4 py-6">
                 <div class="flex flex-col items-center justify-center">
                     @if ($user->image)
@@ -140,14 +137,6 @@
             </main>
         </div>
     </div>
-    {{-- ANIMASI MUNCUL --}}
-    <script>
-        AOS.init({
-            duration: 700, // Durasi animasi (dalam ms)
-            easing: 'ease-in-out', // Efek animasi
-            once: true // Animasi hanya berjalan sekali
-        });
-    </script>
 </body>
 
 </html>

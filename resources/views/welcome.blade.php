@@ -69,7 +69,7 @@
         </div>
 
         {{-- PRIORITY PROGRAM (KeenSlider kept) --}}
-        <section class="bg-gray-50 dark:bg-gray-900 py-12" data-aos="fade-up">
+        <section class="bg-gray-50 dark:bg-gray-900 py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 text-center">Bidang Konsumsi
                     Priority Programs</h2>
@@ -130,7 +130,7 @@
         </section>
 
         {{-- BERITA TERKINI --}}
-        <section class="bg-white dark:bg-gray-900 text-gray-800 dark:text-white py-12" data-aos="fade-up">
+        <section class="bg-white dark:bg-gray-900 text-gray-800 dark:text-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-gray-100">Berita Terkini
                 </h2>
@@ -174,7 +174,7 @@
         </section>
 
         {{-- DATA LONGWIS --}}
-        <section class="bg-gray-50 dark:bg-gray-900 py-12" data-aos="fade-up">
+        <section class="bg-gray-50 dark:bg-gray-900 py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-gray-100">
                     Data Longwis Terbaru
@@ -216,7 +216,7 @@
         </section>
 
         {{-- DATA PROJECTS --}}
-        <section class="bg-white dark:bg-gray-900 py-12" data-aos="fade-up">
+        <section class="bg-white dark:bg-gray-900 py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-gray-100">
                     Project DKP Makassar
