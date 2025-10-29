@@ -55,13 +55,17 @@
             background-color: rgba(17, 24, 39, 0.75);
             /* mirip dark:bg-gray-900/75 */
         }
-         main, .page-content {
+
+        main,
+        .page-content {
             /* beri padding agar konten tidak tertutup navbar */
-            padding-top: 4rem; /* kira-kira tinggi navbar (64px) */
+            padding-top: 4rem;
+            /* kira-kira tinggi navbar (64px) */
         }
     }
 </style>
 @stack('scripts')
+
 <body
     class="antialiased font-poppins bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 flex flex-col min-h-screen">
     <nav x-data="{ open: false }"
@@ -257,8 +261,7 @@
             </div>
             <!-- Features Dropdown -->
             <div x-data="{ openFeatures: false }" class="space-y-1">
-                <x-responsive-nav-link class="" href="#"
-                    @click.prevent="openFeatures = !openFeatures">
+                <x-responsive-nav-link class="" href="#" @click.prevent="openFeatures = !openFeatures">
                     Features
                     <svg :class="{ 'rotate-180': openFeatures, 'rotate-0': !openFeatures }"
                         class="w-4 h-4 ml-2 inline transform transition-transform duration-200"
@@ -359,16 +362,10 @@
         <div class=" border-t border-gray-100 py-4 dark:border-gray-600">
             <p class="text-center text-xs/relaxed">
                 © Dinas Ketahanan Pangan 2024. All rights reserved.
-
                 <br />
-
                 Created with
                 <a href="#"
                     class="underline transition hover:text-indigo-800/100 dark:hover:text-gray-100/75">Laravel</a>
-                and
-                <a href="#"
-                    class="underline transition hover:text-indigo-800/100 dark:hover:text-gray-100/75">Laravel
-                    Livewire</a>.
             </p>
         </div>
     </footer>
